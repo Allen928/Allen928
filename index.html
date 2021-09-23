@@ -1,321 +1,187 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-09-23 08:48:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-<meta name="generator" content="Hexo 5.4.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-Hexo + Github实现个人博客" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2021/09/22/Hexo%20+%20Github%E5%AE%9E%E7%8E%B0%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
-  <time class="dt-published" datetime="2021-09-22T12:34:05.934Z" itemprop="datePublished">2021-09-22</time>
-</a>
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  </div>
-  <div class="article-inner">
-    
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="基于Hexo和Github搭建个人静态博客—macOS平台"><a href="#基于Hexo和Github搭建个人静态博客—macOS平台" class="headerlink" title="基于Hexo和Github搭建个人静态博客—macOS平台"></a>基于Hexo和Github搭建个人静态博客—macOS平台</h1><p><strong>安装部分</strong></p>
-<ul>
-<li>node.js</li>
-<li>git</li>
-<li>Hexo</li>
-<li>Github 账号</li>
-</ul>
-<ol>
-<li>安装node.js</li>
-</ol>
-<p>使用homebrew</p>
-<p><code> brew install node</code></p>
-<p>然后使用<code>node -v</code>查看node.js的版本</p>
-<ol start="2">
-<li>安装hexo</li>
-</ol>
-<p><code>npm install -g hexo-cli</code></p>
-<p>使用<code>hexo -v</code>查看hexo的版本</p>
-<ol start="3">
-<li>新建myblog目录(名字任选)</li>
-</ol>
-<p><code>cd 目标目录</code></p>
-<p><code>mkdir myblog</code></p>
-<p>在myblog目录下进一步操作，因为如果安装或者配置出问题的话可以将这个文件夹删去重来</p>
-<ol start="4">
-<li> 使用<code>hexo init</code>生成博客</li>
-</ol>
-<p>这一步会比较久，网速不好的也很麻烦，所以我是直接进入github仓库下载里面的包之后解压到myblog目录</p>
-<p>具体步骤</p>
-<ul>
-<li><p>进入<a target="_blank" rel="noopener" href="http://github.com/hexojs/hexo-starter.git">http://github.com/hexojs/hexo-starter.git</a>仓库，下载zip文件并解压</p>
-</li>
-<li><p>在控制台找到myblog的地址，选中地址右键选择在访达中显示</p>
-</li>
-<li><p>复制解压的文件到myblog文件夹</p>
-</li>
-<li><p>使用<code>hexo init</code>命令</p>
-</li>
-</ul>
-<ol start="5">
-<li>安装git，为之后部署博客作准备</li>
-</ol>
-<p><code>brew install git</code></p>
-<p>到此为止，安装部分结束了。</p>
-<p><strong>启动博客部分</strong></p>
-<ol>
-<li>使用<code>hexo s</code> </li>
-</ol>
-<p>成功则显示</p>
-<p>这一部分我没有遇到问题，第一次hexo仓库中的文件没有全部下下来的时候也都成功生成了，这一部分不做赘述</p>
-<p><strong>编写博客部分</strong></p>
-<ol>
-<li>新建文章</li>
-</ol>
-<p>新建文章的方法有很多，比如 <code>hexo n 文件名</code>等方法，因为hexo静态博客使用markdown语言的md文件，所以我一般使用外部markdown文本编辑器编写markdown文本</p>
-<ol start="2">
-<li>移动文章</li>
-</ol>
-<p>hexo的博客文件在<code>myblog/source/_posts/</code>里面，在访达中显示，然后复制过去即可。</p>
-<ol start="3">
-<li>发布文章</li>
-</ol>
-<ul>
-<li><code>cd 目标目录</code></li>
-<li>运行<code>hexo clean</code></li>
-<li><code>hexo g</code>生成文章</li>
-<li><code>hexo s</code>重新生成</li>
-</ul>
-<p><strong>博客部署部分</strong></p>
-<ol>
-<li><p> 进入GitHub <a target="_blank" rel="noopener" href="https://github.com/">https://github.com</a> 创建仓库</p>
-</li>
-<li><p>Repository name命名必须是xxx.github.io </p>
-<p>xxx是你的用户名，以后用  &lt;用户名.github.io&gt; 直接访问博客</p>
-</li>
-<li><p> 设置git的用户名和密码</p>
-</li>
-</ol>
-<p>   <code>git config --global user.name &quot;你的用户名&quot;</code></p>
-<p>   <code>git config --global user.email &quot;你的邮箱&quot;</code></p>
-<ol start="4">
-<li><p>通过终端创建ssh key</p>
-<p><code>ssh-keygen -t rsa -C &quot;你的邮箱&quot;</code></p>
-<p>输入路径和密码，路径我使用的是默认路径，记下。之后需要在终端中找到它的位置</p>
-</li>
-<li><p>找到默认路径中的id_rsa.pub</p>
-<p>使用<code>cat id_rsa.pub</code>命令，打开可以看见一大串字符，复制下来。</p>
-</li>
-<li><p>打开GitHub网页，在右边的Setting中找到SSH and GPG keys</p>
-<p>title中填入任意名字，key中填入刚才复制过的字符。</p>
-</li>
-<li><p>在myblog目录下运行<code>npm install --save hexo-deployer-git</code></p>
-</li>
-<li><p>设置myblog文件夹下的_config.yml 文件</p>
-<ul>
-<li><p>运行<code>vi _config.yml </code></p>
-</li>
-<li><p> 移动光标到最下面</p>
-</li>
-<li><p>点击字母i</p>
-</li>
-<li><p> 将最后一行改为</p>
-</li>
-</ul>
-<p>  deploy:</p>
-<p>  type: git<br>  repo: <a target="_blank" rel="noopener" href="https://github.com/%E4%BD%A0%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D/%E4%BD%A0%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D.github.io.git">https://github.com/你的用户名/你的用户名.github.io.git</a><br>  branch: master</p>
-<ul>
-<li><p>按esc退出编辑模式</p>
-</li>
-<li><p>输入:</p>
-</li>
-<li><p>输入wq回车退出编辑</p>
-</li>
-</ul>
-</li>
-<li><p>将本地文件部署到远端</p>
-<ul>
-<li><p>打开GitHub网页版，点击settings，找到developer settings，点击personal access tokens</p>
-</li>
-<li><p>点击新建tokens</p>
-</li>
-<li><p>选择有效时间，填写名称，勾选可执行范围(我全选了)</p>
-</li>
-<li><p>点击生成tokens</p>
-<p>注意tokens只会出现一次，一定要记录下来</p>
-</li>
-<li><p>运行<code>hexo d</code></p>
-</li>
-<li><p>输入用户名</p>
-</li>
-<li><p>在密码栏输入tokens字符串</p>
-</li>
-</ul>
-<p>部署部分结束</p>
-<p><strong>美化部分</strong></p>
-</li>
-</ol>
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">1</div></a></div></div></div><hr/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Hexo</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2021/09/22/Hexo%20+%20Github%E5%AE%9E%E7%8E%B0%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="No title">     <img class="post_bg" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"></a></div><div class="recent-post-info"><a class="article-title" href="/2021/09/22/Hexo%20+%20Github%E5%AE%9E%E7%8E%B0%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="No title">No title</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2021-09-22T12:34:05.934Z" title="Created 2021-09-22 20:34:05">2021-09-22</time></span></div><div class="content">基于Hexo和Github搭建个人静态博客—macOS平台安装部分
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/09/22/Hexo%20+%20Github%E5%AE%9E%E7%8E%B0%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" data-id="cktvly1fm0000k6t21ww0efqj" data-title="" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
+node.js
+git
+Hexo
+Github 账号
+
+
+安装node.js
+
+使用homebrew
+ brew install node
+然后使用node -v查看node.js的版本
+
+安装hexo
+
+npm install -g hexo-cli
+使用hexo -v查看hexo的版本
+
+新建myblog目录(名字任选)
+
+cd 目标目录
+mkdir myblog
+在myblog目录下进一步操作，因为如果安装或者配置出问题的话可以将这个文件夹删去重来
+
+ 使用hexo init生成博客
+
+这一步会比较久，网速不好的也很麻烦，所以我是直接进入github仓库下载里面的包之后解压到myblog目录
+具体步骤
+
+进入http://github.com/hexojs/hexo-starter.git仓库，下载zip文件并解压
+
+在控制台找到myblog的地址，选中地址右键选择在访达中显示
+
+复制解压的文件到myblog文件夹
+
+使用hexo init命令
 
 
 
-  
+安装git，为之后部署博客作准备
 
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">September 2021</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2021/09/22/Hexo%20+%20Github%E5%AE%9E%E7%8E%B0%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">(no title)</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2021 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+brew install ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">1</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/09/22/Hexo%20+%20Github%E5%AE%9E%E7%8E%B0%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="No title"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="No title"/></a><div class="content"><a class="title" href="/2021/09/22/Hexo%20+%20Github%E5%AE%9E%E7%8E%B0%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" title="No title">No title</a><time datetime="2021-09-22T12:34:05.934Z" title="Created 2021-09-22 20:34:05">2021-09-22</time></div></div></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2021/09/"><span class="card-archive-list-date">September 2021</span><span class="card-archive-list-count">1</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">1</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2021-09-23T00:48:12.434Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
