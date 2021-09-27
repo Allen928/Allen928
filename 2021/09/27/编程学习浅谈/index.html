@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我与编程-Matlab篇编程是一件让人可以偷懒的能力，这是我最开始学习编程的原因。大概是2018年，我进入现在的课题组开始研究生的生活。什么让我最困扰呢？大量等待着处理的数据，这些数据的格式都是差不多的，前期处理方法也是千篇一律，按道理来说是很简单的任务，但是量实在是太大了，往往一天的数据足够一个人处理两三天，而且是重复着的机械般的动作。这个时候我就想能不能把这些固定步骤的计算交给计算机做呢，于是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程学习浅谈">
+<meta property="og:url" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/index.html">
+<meta property="og:site_name" content="未闻">
+<meta property="og:description" content="我与编程-Matlab篇编程是一件让人可以偷懒的能力，这是我最开始学习编程的原因。大概是2018年，我进入现在的课题组开始研究生的生活。什么让我最困扰呢？大量等待着处理的数据，这些数据的格式都是差不多的，前期处理方法也是千篇一律，按道理来说是很简单的任务，但是量实在是太大了，往往一天的数据足够一个人处理两三天，而且是重复着的机械般的动作。这个时候我就想能不能把这些固定步骤的计算交给计算机做呢，于是">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/1.png">
+<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/2.png">
+<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/3.png">
+<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/4.png">
+<meta property="article:published_time" content="2021-09-27T14:04:54.000Z">
+<meta property="article:modified_time" content="2021-09-27T14:56:27.812Z">
+<meta property="article:author" content="Allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/1.png">
+
+<link rel="canonical" href="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>编程学习浅谈 | 未闻</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">未闻</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E4%B9%A6%E9%A1%B5.gif">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="一个随笔之处">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="未闻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          编程学习浅谈
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-09-27 22:04:54 / Modified: 22:56:27" itemprop="dateCreated datePublished" datetime="2021-09-27T22:04:54+08:00">2021-09-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%9D%E8%8A%B1%E5%A4%95%E6%8B%BE/" itemprop="url" rel="index"><span itemprop="name">朝花夕拾</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="我与编程-Matlab篇"><a href="#我与编程-Matlab篇" class="headerlink" title="我与编程-Matlab篇"></a>我与编程-<code>Matlab</code>篇</h2><p>编程是一件让人可以偷懒的能力，这是我最开始学习编程的原因。大概是2018年，我进入现在的课题组开始研究生的生活。什么让我最困扰呢？大量等待着处理的数据，这些数据的格式都是差不多的，前期处理方法也是千篇一律，按道理来说是很简单的任务，但是量实在是太大了，往往一天的数据足够一个人处理两三天，而且是重复着的机械般的动作。这个时候我就想能不能把这些固定步骤的计算交给计算机做呢，于是开始了我的编程之路。</p>
+<p>首先进入我眼中的是<code>Matlab</code>，因为大学的时候简单的学习过它，对它有一定了解，所以首先从<code>Matlab</code>入手了。我记得当时遇到的第一个困难是如何将大量的<code>txt</code> 文本数据读进<code>Matlab</code>的工作空间(当时实在是太菜了)。</p>
+<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/1.png" alt="示意图"></p>
+<p>然后按照一定的顺序将每个文本的数据内容做一些加减乘除运算，然后对目标数据进行一个单指数拟合，最终得到系数。就是这样的一个功能，我写了大约3天。</p>
+<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/2.png" alt="示意图"></p>
+<p>不过当时我可自豪了，产生了想将课题组的数据处理方法整合起来的想法，也就是构建一个的数据处理软件。为了让大家更好的使用，我必须要考虑图形界面，于是我开始了<code>Matlab GUI</code>的学习(花费了2个星期左右)。从啥也不明白到了解了每一个控件就是调用一个函数，要想设置控件就必须要得到控件的句柄，得到句柄后查看帮助文档了解如何对控件进行操作，即属性和回调函数的设置。到这里我写了一个简单的计算器，一个处理气溶胶数据的简单运算的图形界面(从没见人用过)。</p>
+<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/3.png" alt="示意图"></p>
+<p>后面因为我自己的实验就中断了编程的学习，直到光学部分已经看到部分成果后，我决定开始二维光谱图像的处理，也就是编写一个光谱仪信息采集处理软件，首选平台<code>Matlab</code>(因为我就会这个)。于是找了相机的教程，把教程的代码段抄下来，勉勉强强完成了设置相机参数、打开光谱仪、采集数据、显示数据等。但不是程序一会死机了(现在明白了是内存溢出了),就是运行着程序越来越慢。于是我开始网上搜怎样才能同时做到这几件事呢？我认为的答案是多线程技术，可是<code>Matlab</code>只支持并行计算，并不支持多线程编程，没办法我只能另求出路，<code>java、python、C++</code>，我选择了<code>C++</code>，因为它是最难的。</p>
+<h2 id="我与编程-C-篇"><a href="#我与编程-C-篇" class="headerlink" title="我与编程-C++篇"></a>我与编程-<code>C++</code>篇</h2><p>开始的我不知天高地厚，天真的以为自学了<code>Matlab</code>，那么<code>C++</code>也同样不在话下！真的好傻啊。最开始我买了本<code>c++ primer</code>直接开啃，慢慢的我学习语法两个多月后，看了忘，忘了看，连网上随随便便一道算法题都完不成后，我开始思考我是不是学错了，到底怎么学习？当时恰逢春节，我回家之后和我表弟打赌，比的是谁能完成一个<code>c++</code>课程设计，是一个公司管理系统，一个总公司管理着下属的20个子公司。我先完成了，用的手法就很low啦，这是我第一次在<code>c++</code>平台上完成一件事，对我的激励还挺强的。</p>
+<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/4.png" alt="示意图"></p>
+<p>不过现在看来还是写的很差的，不过好歹实现了不是。</p>
+<p>对学习编程来说，真正第一次有所感悟是学习Stanford CS106B，因为这门课是将算法、数据结构和语法放在一起讲的，循序渐进，从一个一个问题中，我慢慢理解到了数据结构的美，算法的精妙之处，如何实现模版类之类的知识让我对STL之类的类库再也没有那么害怕。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="prev" title="中介者模式">
+      <i class="fa fa-chevron-left"></i> 中介者模式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%8E%E7%BC%96%E7%A8%8B-Matlab%E7%AF%87"><span class="nav-number">1.</span> <span class="nav-text">我与编程-Matlab篇</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%8E%E7%BC%96%E7%A8%8B-C-%E7%AF%87"><span class="nav-number">2.</span> <span class="nav-text">我与编程-C++篇</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Allen"
+      src="/images/%E4%B9%A6%E9%A1%B5.gif">
+  <p class="site-author-name" itemprop="name">Allen</p>
+  <div class="site-description" itemprop="description">一个随笔之处</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
