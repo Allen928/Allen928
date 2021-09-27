@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="中介者模式不同类之间的通信大部分是通过直接引用或者指针引用的方式，但是在某些情况下，我们不希望对象之间知道彼此的存在。比如飞机场的降落管控事件，我们不希望不同的飞机间通过相互商议的形式决定谁先降落、谁后降落，而是希望他们听从地面管控中心的统一管理。这就是中介者模式机制所面向的问题。即一个对象管理多个对象协同工作&gt;的关系。 网络聊天室网络聊天室是一个经典案例。 参与者聊天室中的参与者可以简单描">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中介者模式">
+<meta property="og:url" content="http://example.com/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="未闻">
+<meta property="og:description" content="中介者模式不同类之间的通信大部分是通过直接引用或者指针引用的方式，但是在某些情况下，我们不希望对象之间知道彼此的存在。比如飞机场的降落管控事件，我们不希望不同的飞机间通过相互商议的形式决定谁先降落、谁后降落，而是希望他们听从地面管控中心的统一管理。这就是中介者模式机制所面向的问题。即一个对象管理多个对象协同工作&gt;的关系。 网络聊天室网络聊天室是一个经典案例。 参与者聊天室中的参与者可以简单描">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/1.png">
+<meta property="article:published_time" content="2021-09-27T12:55:49.000Z">
+<meta property="article:modified_time" content="2021-09-27T13:02:58.420Z">
+<meta property="article:author" content="Allen">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/1.png">
+
+<link rel="canonical" href="http://example.com/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>中介者模式 | 未闻</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">未闻</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="一个随笔之处">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="未闻">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          中介者模式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-09-27 20:55:49 / Modified: 21:02:58" itemprop="dateCreated datePublished" datetime="2021-09-27T20:55:49+08:00">2021-09-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="中介者模式"><a href="#中介者模式" class="headerlink" title="中介者模式"></a>中介者模式</h1><p>不同类之间的通信大部分是通过直接引用或者指针引用的方式，但是在某些情况下，我们不希望对象之间知道彼此的存在。比如飞机场的降落管控事件，我们不希望不同的飞机间通过相互商议的形式决定谁先降落、谁后降落，而是希望他们听从地面管控中心的统一管理。这就是中介者模式机制所面向的问题。即<font color="blue">一个对象管理多个对象协同工作</font>&gt;的关系。</p>
+<h2 id="网络聊天室"><a href="#网络聊天室" class="headerlink" title="网络聊天室"></a>网络聊天室</h2><p>网络聊天室是一个经典案例。</p>
+<h3 id="参与者"><a href="#参与者" class="headerlink" title="参与者"></a>参与者</h3><p>聊天室中的参与者可以简单描述为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line">  <span class="built_in">Person</span>(<span class="keyword">const</span> string&amp; name);</span><br><span class="line">  string name;</span><br><span class="line">  ChatRoom* room = <span class="literal">nullptr</span>;</span><br><span class="line">  vector&lt;string&gt;chat_log;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">receive</span><span class="params">(<span class="keyword">const</span> string&amp; origin, <span class="keyword">const</span> string&amp; message)</span></span>&#123;</span><br><span class="line">    string s&#123; origin + <span class="string">&quot;: \&quot;&quot;</span> + message + <span class="string">&quot;\&quot;&quot;</span> &#125;;</span><br><span class="line">    cout &lt;&lt; <span class="string">&quot;[&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;&#x27;s chat session] &quot;</span> &lt;&lt; s &lt;&lt; endl;</span><br><span class="line">    chat_log.<span class="built_in">emplace_back</span>(s);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">(<span class="keyword">const</span> string&amp; message)</span> <span class="keyword">const</span></span>&#123;</span><br><span class="line">    room-&gt;<span class="built_in">broadcast</span>(name, message);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">pm</span><span class="params">(<span class="keyword">const</span> string&amp; who, <span class="keyword">const</span> string&amp; message)</span> <span class="keyword">const</span></span>&#123;</span><br><span class="line">    room-&gt;<span class="built_in">message</span>(name, who, message);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这个类包含一个构造函数、名字、指向聊天室的指针、聊天记录、三个成员函数。</p>
+<p><code>receive()</code>允许我们接收消息，通常还会在屏幕上显示以及将内容保存到消息日志中。</p>
+<p><code>say()</code>允许此人向房间中每个人发送消息。</p>
+<p><code>pm()</code>是私人消息传递功能，您需要指定消息所针对的人的姓名。</p>
+<p><code>say()和pm()</code>会将操作转到聊天室。</p>
+<h3 id="聊天室"><a href="#聊天室" class="headerlink" title="聊天室"></a>聊天室</h3><p>那么让我们来实现一个简单的聊天室。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChatRoom</span>&#123;</span></span><br><span class="line">  vector&lt;Person*&gt; people; <span class="comment">// assume append-only</span></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">join</span><span class="params">(Person* p)</span></span>&#123;</span><br><span class="line">    string join_msg = p-&gt;name + <span class="string">&quot; joins the chat&quot;</span>;</span><br><span class="line">    <span class="built_in">broadcast</span>(<span class="string">&quot;room&quot;</span>, join_msg);</span><br><span class="line">    p-&gt;room = <span class="keyword">this</span>;</span><br><span class="line">    people.<span class="built_in">push_back</span>(p);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">broadcast</span><span class="params">(<span class="keyword">const</span> string&amp; origin, <span class="keyword">const</span></span></span></span><br><span class="line"><span class="params"><span class="function">string&amp; message)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> p : people)</span><br><span class="line">      <span class="keyword">if</span> (p-&gt;name != origin)</span><br><span class="line">        p-&gt;<span class="built_in">receive</span>(origin, message);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">message</span><span class="params">(<span class="keyword">const</span> string&amp; origin, <span class="keyword">const</span> string&amp; who,<span class="keyword">const</span> string&amp; message)</span></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> target = <span class="built_in">find_if</span>(<span class="built_in">begin</span>(people), <span class="built_in">end</span>(people),[&amp;](<span class="keyword">const</span> Person* p) &#123; <span class="keyword">return</span> p-&gt;name == who; &#125;);</span><br><span class="line">    <span class="keyword">if</span> (target != <span class="built_in">end</span>(people))&#123;</span><br><span class="line">      (*target)-&gt;<span class="built_in">receive</span>(origin, message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>ChatRoom API非常简单，<code>join()让一个人加入房间(暂时只进不出，后面讨论线程安全问题时再考虑)</code>、<code>broadcast()</code>将消息发送给其他所有人、<code>message()</code>发送私人消息。</p>
+<h3 id="源代码实现"><a href="#源代码实现" class="headerlink" title="源代码实现"></a>源代码实现</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//前置声明，因为ChatRoom需要使用Person类的成员</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//聊天室类，保存有当前聊天室内人员信息，允许某个成员发送全体消息，允许人员加入，允许人员发送私信</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChatRoom</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;Person*&gt; people;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">join</span><span class="params">(Person* p)</span></span>;</span><br><span class="line">  <span class="comment">//接口函数声明，类中声明与实现分离，在编译器编译时不会报错，因为实现的代码在Person类完整声明之后</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">broadcast</span><span class="params">(<span class="keyword">const</span> string&amp; origin, <span class="keyword">const</span></span></span></span><br><span class="line"><span class="params"><span class="function">                   string&amp; message)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">message</span><span class="params">(<span class="keyword">const</span> string&amp; origin, <span class="keyword">const</span> string&amp;who,<span class="keyword">const</span> string&amp; message)</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//参与者类，可以发送消息、接受消息、保存聊天记录，拥有个人标识以及所在房间标识</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">Person</span>(<span class="keyword">const</span> string&amp; name):<span class="built_in">name</span>(name)&#123;&#125;;</span><br><span class="line">    string name;</span><br><span class="line">    ChatRoom*room = <span class="literal">nullptr</span>;</span><br><span class="line">    vector&lt;string&gt;chat_log;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">receive</span><span class="params">(<span class="keyword">const</span> string&amp; origin,<span class="keyword">const</span> string&amp; message)</span></span>&#123;</span><br><span class="line">        string s&#123;origin + <span class="string">&quot;: \&quot;&quot;</span> + message + <span class="string">&quot;\&quot;&quot;</span>&#125;;</span><br><span class="line">        cout&lt;&lt; <span class="string">&quot;[&quot;</span> &lt;&lt; name &lt;&lt; <span class="string">&quot;&#x27;s chat session] &quot;</span> &lt;&lt; s &lt;&lt; endl;</span><br><span class="line">        chat_log.<span class="built_in">emplace_back</span>(s);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">say</span><span class="params">(<span class="keyword">const</span> string&amp; message)</span></span>&#123;</span><br><span class="line">        room-&gt;<span class="built_in">broadcast</span>(name, message);</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">pm</span><span class="params">(<span class="keyword">const</span> string&amp; who, <span class="keyword">const</span> string&amp; message)</span></span>&#123;</span><br><span class="line">        room-&gt;<span class="built_in">message</span>(name, who, message);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//类方法实现部分</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ChatRoom::join</span><span class="params">(Person *p)</span></span>&#123;</span><br><span class="line">    string join_msg = p-&gt;name + <span class="string">&quot; joins the chat&quot;</span>;</span><br><span class="line">        <span class="built_in">broadcast</span>(<span class="string">&quot;room&quot;</span>, join_msg);</span><br><span class="line">        p-&gt;room = <span class="keyword">this</span>;</span><br><span class="line">        people.<span class="built_in">push_back</span>(p);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ChatRoom::broadcast</span><span class="params">(<span class="keyword">const</span> string &amp;origin, <span class="keyword">const</span> string &amp;message)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">auto</span> p : people)</span><br><span class="line">          <span class="keyword">if</span> (p-&gt;name != origin)</span><br><span class="line">            p-&gt;<span class="built_in">receive</span>(origin, message);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ChatRoom::message</span><span class="params">(<span class="keyword">const</span> string &amp;origin, <span class="keyword">const</span> string &amp;who, <span class="keyword">const</span> string &amp;message)</span></span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> target = <span class="built_in">find_if</span>(<span class="built_in">begin</span>(people), <span class="built_in">end</span>(people),[&amp;](<span class="keyword">const</span> Person* p) &#123; <span class="keyword">return</span> p-&gt;name == who; &#125;);</span><br><span class="line">        <span class="keyword">if</span> (target != <span class="built_in">end</span>(people))&#123;</span><br><span class="line">          (*target)-&gt;<span class="built_in">receive</span>(origin, message);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//主函数部分</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    ChatRoom room;</span><br><span class="line">    Person john&#123; <span class="string">&quot;john&quot;</span> &#125;;</span><br><span class="line">    Person jane&#123; <span class="string">&quot;jane&quot;</span> &#125;;</span><br><span class="line">    room.<span class="built_in">join</span>(&amp;john);</span><br><span class="line">    room.<span class="built_in">join</span>(&amp;jane);</span><br><span class="line">    john.<span class="built_in">say</span>(<span class="string">&quot;hi room&quot;</span>);</span><br><span class="line">    jane.<span class="built_in">say</span>(<span class="string">&quot;oh, hey john&quot;</span>);</span><br><span class="line">    <span class="function">Person <span class="title">simon</span><span class="params">(<span class="string">&quot;simon&quot;</span>)</span></span>;</span><br><span class="line">    room.<span class="built_in">join</span>(&amp;simon);</span><br><span class="line">    simon.<span class="built_in">say</span>(<span class="string">&quot;hi everyone!&quot;</span>);</span><br><span class="line">    jane.<span class="built_in">pm</span>(<span class="string">&quot;simon&quot;</span>, <span class="string">&quot;glad you could join us, simon&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在聊天室的示例中，每当有人发布消息时，参与者都需要通知。即是说：中介者拥有一个所有参与者共享的事件，参与者可以订阅该事件以接收通知，他们也可以触发该事件，从而触发通知。</p>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>中介者模式建议停止组件之间的相互联系而使它们相互独立。这些组件之间的交流必须调用特殊的中介者对象， 通过中介者对象重定向调用行为， 以间接的方式进行合作。 最终， 组件仅依赖于一个中介者类， 无需与多个其他组件相耦合。能让你减少对象之间混乱无序的依赖关系。 </p>
+<p>如资料编辑表单， 对话框 （Dialog） 类本身将作为中介者。</p>
+<p><img src="/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/1.png" alt="示意图"><br>绝大部分重要的修改都在实际表单元素中进行。 如提交按钮，当用户点击按钮后， 它必须对所有表单元素数值进行校验。如果使用中介者模式，它只需要发送消息给中介者即可，中介者会自行校验数值并将任务委派下去，这样一来，按钮不再与其他表单元素相关联。 在 MVC 模式中， 控制器是中介者的同义词。在 C++ 代码中中介者模式最常用于帮助程序 GUI 组件之间的通信。</p>
+<p>下面以真实编码示例中的UI中各个控件之间的中介者模式编码为例。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">google</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/09/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="prev" title="观察者模式">
+      <i class="fa fa-chevron-left"></i> 观察者模式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">中介者模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%81%8A%E5%A4%A9%E5%AE%A4"><span class="nav-number">1.1.</span> <span class="nav-text">网络聊天室</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E4%B8%8E%E8%80%85"><span class="nav-number">1.1.1.</span> <span class="nav-text">参与者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%81%8A%E5%A4%A9%E5%AE%A4"><span class="nav-number">1.1.2.</span> <span class="nav-text">聊天室</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.1.3.</span> <span class="nav-text">源代码实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">优点</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Allen</p>
+  <div class="site-description" itemprop="description">一个随笔之处</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Allen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
