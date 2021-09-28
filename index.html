@@ -152,6 +152,107 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/28/Use-case%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E4%B9%A6%E9%A1%B5.gif">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="一个随笔之处">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="未闻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">Use case教程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-09-28 14:25:40 / Modified: 19:15:46" itemprop="dateCreated datePublished" datetime="2021-09-28T14:25:40+08:00">2021-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">面向对象设计</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>转载链接<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=zid-MVo7M-E">https://www.youtube.com/watch?v=zid-MVo7M-E</a></p>
+<p>接下来将讨论<font color="blue" size="5">Systems</font>，<font color="green" size="5">Actors</font>，<font color="red" size="5">Use Cases</font>，<font color="blacjk" size="5">Relationships</font>；然后创建一个完整的用例图，并进行深入解读。</p>
+<h1 id="Systems"><a href="#Systems" class="headerlink" title="Systems"></a><font color="blue" size="6">Systems</font></h1><p>系统就是开发的所有东西。它可以是网站、软件组件、应用程序或者其他。</p>
+<p>通常使用一个矩形来代表系统。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/1.png" alt="示意图"></p>
+<p>这个矩形定义了此系统的范围，此矩形内的所有内容都在银行这个应用中发生。</p>
+<h1 id="Actors"><a href="#Actors" class="headerlink" title="Actors"></a><font color="green" size="6">Actors</font></h1><p>通常使用一个火柴人来表示参与者。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/2.png" alt="示意图"></p>
+<p>Actor将是系统实现目标的某人、某物甚至外系统。</p>
+<p>在银行App中常见的参与者有顾客和银行本身。那么顾客和银行有什么区别呢？谁是主要的使用者，谁是被动接受者呢？</p>
+<p>在系统中 Primary Actors是 Initiates the use of the system，而 Secondary Actors 是  Reactionary。比如此例中顾客是主要参与者，银行是次要参与者。顾客开始提出存款、取款、查询等要求，银行被动给予回应。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/3.png" alt="示意图"></p>
+<p>一般将主要参与者放置在左侧，次要参与者放置在右侧。</p>
+<h1 id="Use-Cases"><a href="#Use-Cases" class="headerlink" title="Use Cases"></a><font color="red" size="6">Use Cases</font></h1><p>用况是真正开始需求建模的地方。一般用一个椭圆形代表一个用况，表示要做的一件工作。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/4.png" alt="示意图"></p>
+<p>那么银行App能做些什么呢？这里将功能进行简化。</p>
+<ul>
+<li>允许客户登录，检查账户余额，转账，存款，按发票付款。</li>
+</ul>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/5.png" alt="示意图"></p>
+<p>每个用况的开头都是动词。如果想对系统中的用例进行更为详细的描述，比如此用况已经发生，那么对于分析来说十分混乱，所以最好按逻辑顺序排列用况。如上所述，log in是其他所有用况的起点，但是在描述其他用况的时候不会再提及登录操作，并且将log in放在最前面，因为这事顾客使用App时需要做的第一件事。。</p>
+<h1 id="Relationships"><a href="#Relationships" class="headerlink" title="Relationships"></a><font color="black" size="6">Relationships</font></h1><p>最后一个要素是关系。参与者使用系统来实现需求，因此每个参与者必须与系统中至少一个用况进行交互。在上述示例中，顾客登录到银行应用程序，因此在顾客和log in用况之间用直线相连——<font color="green"><strong>关联</strong></font>关系。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/6.png" alt="示意图"></p>
+<p>除去关联关系外还有包含关系、延伸关系和泛化关系。</p>
+<p>在顾客输入他们的登录信息时，银行应用会验证密码，如果密码不正确，银行将向应用程序发送一条错误信息。</p>
+<p>所以我们需要再加上两个用例，检查密码正确性和发送密码错误信息。</p>
+<p>档顾客想要转账时，银行首先需要验证账号里的钱是否充足，因此需要再加上一个用例。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/7.png" alt="示意图"></p>
+<p>那么密码验证用况和整个图表的其他部分有什么关系呢？我们的参与者都没有直接发起这项动作，但是每次进行登录操作时它的确会运行。所以这就是一个包含关系，意思是每当执行主要用况时，也会执行包含的用况。一般使用指向包含用况的虚线箭头表示这种包含关系。</p>
+<p>另一种重要的关系时延伸关系。延伸包含两方，基本用况和延伸用况。当执行基本用况时，有时会发生用况延伸，有时不会，仅当满足特定条件才会使用延伸用况。比如上述用况中的展示密码错误用况。延伸关系使用一条指向基本用况的带箭头的虚线表示。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/8.png" alt="示意图"></p>
+<p>延伸与包含的关系也可以简单描述为包含关系的两个用况一定同时运行，延伸关系的两个用况不一定同时运行。</p>
+<p>值得一提的是，多个基本用况可以包含相同的扩展用况。如转账和支付都需要检查账号的钱够不够。</p>
+<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/9.png" alt="示意图"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -501,14 +602,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
   </nav>
