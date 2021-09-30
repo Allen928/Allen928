@@ -153,7 +153,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/28/Use-case%E6%95%99%E7%A8%8B/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/%E4%B9%A6%E9%A1%B5.gif">
@@ -167,7 +167,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">Use case教程</a>
+            <a href="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">1.Use Case教程</a>
         </h2>
 
         <div class="post-meta">
@@ -176,16 +176,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2021-09-28 14:25:40" itemprop="dateCreated datePublished" datetime="2021-09-28T14:25:40+08:00">2021-09-28</time>
+              <time title="Created: 2021-09-29 15:59:17 / Modified: 17:21:25" itemprop="dateCreated datePublished" datetime="2021-09-29T15:59:17+08:00">2021-09-29</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-09-29 09:39:41" itemprop="dateModified" datetime="2021-09-29T09:39:41+08:00">2021-09-29</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -211,41 +205,147 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>转载链接<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=zid-MVo7M-E">https://www.youtube.com/watch?v=zid-MVo7M-E</a></p>
-<p>接下来将讨论<font color="blue" size="5">Systems</font>，<font color="green" size="5">Actors</font>，<font color="red" size="5">Use Cases</font>，<font color="blacjk" size="5">Relationships</font>；然后创建一个完整的用例图，并进行深入解读。</p>
-<h1 id="Systems"><a href="#Systems" class="headerlink" title="Systems"></a><font color="blue" size="6">Systems</font></h1><p>系统就是开发的所有东西。它可以是网站、软件组件、应用程序或者其他。</p>
+          <h1 id="Use-Case是什么"><a href="#Use-Case是什么" class="headerlink" title="Use Case是什么?"></a><font color="red" size="6">Use Case是什么?</font></h1><p>用况的概念最早是Jacobson提出的，他给出的定义是：一个用况是通过使用系统功能的某些部分而使用系统的一种具体形式。每个用况包括一个由参与者发动的完整事件过程。它详细说明了参与者与系统之间发生的交互。因此，一个用况是一个由参与者和系统在一次对话中执行的特定的相关事物序列。</p>
+<p>《面向对象分析与设计》给出的定义是：参与者使用系统的一项功能时所进行的交互过程的描述，其中包括由双方交替执行的一系列动作。</p>
+<h1 id="理解Use-Case定义"><a href="#理解Use-Case定义" class="headerlink" title="理解Use Case定义"></a><font color="red" size="6">理解Use Case定义</font></h1><p>这两者的定义是有些许差别的，我更倾向于使用后者的定义。因为前者认为用况是由参与者发动的完整事件过程。但是如果系统内部发现异常，那么系统需要作为动作发起者，通知参与者做出外部干预，那么这一系列动作的发起者不是外部参与者，而是系统本身，所以前者定义不够全面。</p>
+<p>回到第二个用况定义，深入理解它所表达的含义。</p>
+<ul>
+<li>一个用况只描述参与者对单独一项功能的使用情况。<font color="green">如果一个功能可以拆成许多较小的功能（仍是完整的），则应该使用多个用况描述</font>。举一个简单的例子，银行系统中的资金管理功能，这不是一个用况能描述清楚的。</li>
+<li>用况陈述了参与者与系统在交互过程中双方所做的事，而不是单独一方所做的事。<font color="green">如果多个功能都进行了同样的操作，而这个操作不能被操作者直接启动的话，书中是不建议单独分出一个用况的（不必要的），我觉得有时分出来也不是完全不行（暂时理解不到为什么把这种情况给去掉了）</font>。</li>
+</ul>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/1.png" alt="avatar"></p>
+<ul>
+<li>在所有用况中，由参与者发起的对话最为常见，但是有些对话也可能是系统发起的。</li>
+<li>用况的典型用法是描述参与者和系统彼此为了对方做了什么，而是描述怎么做！</li>
+<li>一个用况可以由多种参与者使用。</li>
+<li>一项系统功能需要多个参与者同时交互才能使用。</li>
+</ul>
+<h1 id="如何定义Use-Case"><a href="#如何定义Use-Case" class="headerlink" title="如何定义Use Case"></a><font color="red" size="6">如何定义Use Case</font></h1><p>要想分析用况，首先需要将自己当作参与者，然后与设想中的系统进行交互，考虑以下几个问题：</p>
+<ul>
+<li>进行这种交互是为了使用系统的什么<font color="blue">功能</font></li>
+<li>使用该<font color="blue">功能</font>的目的是什么</li>
+<li>为达目的，需要向系统输入什么信息（<font color="blue">信息的传递过程即为<font color="red">交互</font></font>）</li>
+<li>希望系统进行怎样的<font color="blue">处理</font>并从它那得到什么结果（<font color="green">系统内部行为</font>）</li>
+</ul>
+<p><font color="red">交互</font>行为连接了功能分析和用况分析，即参与者/系统会主动做出那些交互行为，从交互起点入手、分析以此为起点的一系列动作。</p>
+<p>要点：</p>
+<ol>
+<li>全面的了解和收集用户所要求的各项系统功能，确定系统边界，找出所有参与者，向用户和有关专家了解各项功能的相关业务流程。</li>
+<li>把用户提出的功能组织成<font color="red">合适</font>的单位，即：一次交互完成一个完整而独立的功能。（需要多次交互才能完成的功能可以认为是前置的多个交互（用况）完成后的单次交互结果，比如：第一，拍照功能。你需要打开相机、调整焦距、按下快门。那么拍照这个功能可以分解为3个用况，因为你进行了3次交互。第二，银行的转账，这之间其实也包含了多次交互，输入目标账号、金额，点击转账，输入密码，点击确定。那么这个需要分成4个用况吗？分的太散显然是不合理的，因为输入密码和点击确认虽然是两次交互动作，但是这两个动作是密不可分的，所以可以是转账用况（基用况）包含了密码确认用况（包含用况））。</li>
+<li>穷举每一类参与者所使用的每一项系统功能，定义相应的用况。</li>
+<li>检查用户对系统的各项功能需求是否都通过用况得到了描述。</li>
+</ol>
+<p>个人感觉从不同的参与者需要与系统进行交互的种类为入手点好思考一些。因为交互连接了系统与参与者，每次交互都是为了完成某一项功能，它连接了需求分析和功能分析。</p>
+<p>之后还有一些用况之间的关系，比如包含、延伸、泛化等，这些分类方法可以在已有用况中分离部分动作作为基础用况，让整体的模型更为生动。当然泛化关系是不建议使用，因为这种机制难以描述清楚在什么位置、什么条件下插入被包含的用况，倒不如使用包含的关系，由一个基用况来判断在什么条件下使用哪一个子用况。</p>
+<h1 id="Use-Case图绘制"><a href="#Use-Case图绘制" class="headerlink" title="Use Case图绘制"></a><font color="red" size="6">Use Case图绘制</font></h1><p>一个完整的用况图应该包含系统、参与者、用况和关系。</p>
+<p><font color="blue" size="6">Systems</font></p>
+<p>系统就是开发的所有东西。它可以是网站、软件组件、应用程序或者其他。</p>
 <p>通常使用一个矩形来代表系统。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/1.png" alt="示意图"></p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/2.png" alt="示意图"></p>
 <p>这个矩形定义了此系统的范围，此矩形内的所有内容都在银行这个应用中发生。</p>
-<h1 id="Actors"><a href="#Actors" class="headerlink" title="Actors"></a><font color="green" size="6">Actors</font></h1><p>通常使用一个火柴人来表示参与者。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/2.png" alt="示意图"></p>
+<p><font color="green" size="6">Actors</font></p>
+<p>通常使用一个火柴人来表示参与者。</p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/3.png" alt="示意图"></p>
 <p>Actor将是系统实现目标的某人、某物甚至外系统。</p>
 <p>在银行App中常见的参与者有顾客和银行本身。那么顾客和银行有什么区别呢？谁是主要的使用者，谁是被动接受者呢？</p>
 <p>在系统中 Primary Actors是 Initiates the use of the system，而 Secondary Actors 是  Reactionary。比如此例中顾客是主要参与者，银行是次要参与者。顾客开始提出存款、取款、查询等要求，银行被动给予回应。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/3.png" alt="示意图"></p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/4.png" alt="示意图"></p>
 <p>一般将主要参与者放置在左侧，次要参与者放置在右侧。</p>
-<h1 id="Use-Cases"><a href="#Use-Cases" class="headerlink" title="Use Cases"></a><font color="red" size="6">Use Cases</font></h1><p>用况是真正开始需求建模的地方。一般用一个椭圆形代表一个用况，表示要做的一件工作。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/4.png" alt="示意图"></p>
+<p><font color="red" size="6">Use Cases</font></p>
+<p>用况是真正开始需求建模的地方。一般用一个椭圆形代表一个用况，表示要做的一件工作。</p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/5.png" alt="示意图"></p>
 <p>那么银行App能做些什么呢？这里将功能进行简化。</p>
 <ul>
 <li>允许客户登录，检查账户余额，转账，存款，按发票付款。</li>
 </ul>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/5.png" alt="示意图"></p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/6.png" alt="示意图"></p>
 <p>每个用况的开头都是动词。如果想对系统中的用例进行更为详细的描述，比如此用况已经发生，那么对于分析来说十分混乱，所以最好按逻辑顺序排列用况。如上所述，log in是其他所有用况的起点，但是在描述其他用况的时候不会再提及登录操作，并且将log in放在最前面，因为这事顾客使用App时需要做的第一件事。。</p>
-<h1 id="Relationships"><a href="#Relationships" class="headerlink" title="Relationships"></a><font color="black" size="6">Relationships</font></h1><p>最后一个要素是关系。参与者使用系统来实现需求，因此每个参与者必须与系统中至少一个用况进行交互。在上述示例中，顾客登录到银行应用程序，因此在顾客和log in用况之间用直线相连——<font color="green"><strong>关联</strong></font>关系。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/6.png" alt="示意图"></p>
+<p><font color="cyan" size="6">Relationships</font></p>
+<p>最后一个要素是关系。参与者使用系统来实现需求，因此每个参与者必须与系统中至少一个用况进行交互。在上述示例中，顾客登录到银行应用程序，因此在顾客和log in用况之间用直线相连——<font color="green"><strong>关联</strong></font>关系。</p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/7.png" alt="示意图"></p>
 <p>除去关联关系外还有包含关系、延伸关系和泛化关系。</p>
 <p>在顾客输入他们的登录信息时，银行应用会验证密码，如果密码不正确，银行将向应用程序发送一条错误信息。</p>
 <p>所以我们需要再加上两个用例，检查密码正确性和发送密码错误信息。</p>
 <p>档顾客想要转账时，银行首先需要验证账号里的钱是否充足，因此需要再加上一个用例。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/7.png" alt="示意图"></p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/8.png" alt="示意图"></p>
 <p>那么密码验证用况和整个图表的其他部分有什么关系呢？我们的参与者都没有直接发起这项动作，但是每次进行登录操作时它的确会运行。所以这就是一个包含关系，意思是每当执行主要用况时，也会执行包含的用况。一般使用指向包含用况的虚线箭头表示这种包含关系。</p>
 <p>另一种重要的关系时延伸关系。延伸包含两方，基本用况和延伸用况。当执行基本用况时，有时会发生用况延伸，有时不会，仅当满足特定条件才会使用延伸用况。比如上述用况中的展示密码错误用况。延伸关系使用一条指向基本用况的带箭头的虚线表示。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/8.png" alt="示意图"></p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/9.png" alt="示意图"></p>
 <p>延伸与包含的关系也可以简单描述为包含关系的两个用况一定同时运行，延伸关系的两个用况不一定同时运行。</p>
 <p>值得一提的是，多个基本用况可以包含相同的扩展用况。如转账和支付都需要检查账号的钱够不够。</p>
-<p><img src="/2021/09/28/Use-case%E6%95%99%E7%A8%8B/9.png" alt="示意图"></p>
+<p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/10.png" alt="示意图"></p>
 
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/29/C-%E7%AE%80%E4%BB%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E4%B9%A6%E9%A1%B5.gif">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="一个随笔之处">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="未闻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/09/29/C-%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">C++简介</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-09-29 10:11:41 / Modified: 10:13:06" itemprop="dateCreated datePublished" datetime="2021-09-29T10:11:41+08:00">2021-09-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">C++面向对象设计</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/C-%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">C++教程</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
       
     </div>
 
@@ -633,14 +733,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
   </nav>
