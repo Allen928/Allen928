@@ -153,6 +153,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/%E4%B9%A6%E9%A1%B5.gif">
+      <meta itemprop="name" content="Allen">
+      <meta itemprop="description" content="一个随笔之处">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="未闻">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/10/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">多线程设计模式概述</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2021-10-11 14:29:06 / Modified: 15:07:27" itemprop="dateCreated datePublished" datetime="2021-10-11T14:29:06+08:00">2021-10-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">C++面向对象编程</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">多线程设计模式</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="多线程设计模式类别概括"><a href="#多线程设计模式类别概括" class="headerlink" title="多线程设计模式类别概括"></a>多线程设计模式类别概括</h1><ul>
+<li>不可变对象模式（Immutable Object）</li>
+</ul>
+<p><em>线程安全性</em>指的是多个线程对共享资源同时进行访问时，防止数据发生未定义的变化。</p>
+<p>所谓的不可变对象就是没有机会去修改它，每一次修改都会产生一个新的对象。</p>
+<ul>
+<li>保护性暂挂模式（Guarded Suspension）</li>
+</ul>
+<p>核心思想是仅当服务进程准备好时，才提供服务。</p>
+<p>该模式主要成员有：Request、RequestQueue、ClientThread、ServerThread。</p>
+<ol>
+<li>Request：表示客户端请求</li>
+<li>RequestQueue：用于保存客户端请求队列</li>
+<li>ClientThread：客户端进程</li>
+<li>ServerThread：服务器进程</li>
+</ol>
+<p>适用场景：一项任务被分解为多个不同的部分，每个线程完成不同的部分，这些线程相互协作时，会出现一个线程等待另一个线程一定操作后才能进行的场景。</p>
+<ul>
+<li>两阶段终止模式（Two-phase Termination）</li>
+</ul>
+<ul>
+<li>承诺模式（Promise）</li>
+</ul>
+<ul>
+<li>生产者-消费者模式（Producer-Consumer）</li>
+</ul>
+<ul>
+<li>主动对象模式（Active Object）</li>
+<li>线程池模式（Thread Poll）</li>
+</ul>
+<ul>
+<li>线程特有存储（Thread Specific Storage）</li>
+<li>串行线程封闭模式（Serial Thread Confinement）</li>
+<li>主仆模式（Master-Slave）</li>
+<li>流水线模式（Pipeline）</li>
+<li>半同步/半异步模式（Half-sync/Half-async）</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -415,77 +527,6 @@
 <p>用况允许某些参与者在系统中没有任何的职责，比如说讲师，他们可以访问用况“查看课程”，但是当前描述的系统中没有任何职责。</p>
 <p><img src="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/20.png" alt="示意图"></p>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/29/C-%E7%AE%80%E4%BB%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/%E4%B9%A6%E9%A1%B5.gif">
-      <meta itemprop="name" content="Allen">
-      <meta itemprop="description" content="一个随笔之处">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="未闻">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/29/C-%E7%AE%80%E4%BB%8B/" class="post-title-link" itemprop="url">C++简介</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2021-09-29 10:11:41 / Modified: 10:13:06" itemprop="dateCreated datePublished" datetime="2021-09-29T10:11:41+08:00">2021-09-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/" itemprop="url" rel="index"><span itemprop="name">C++面向对象设计</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1/C-%E6%95%99%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">C++教程</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
       
     </div>
 
@@ -880,7 +921,7 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
   </nav>

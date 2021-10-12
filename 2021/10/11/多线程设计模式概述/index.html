@@ -21,24 +21,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="我与编程-Matlab篇编程是一件让人可以偷懒的能力，这是我最开始学习编程的原因。大概是2018年，我进入现在的课题组开始研究生的生活。什么让我最困扰呢？大量等待着处理的数据，这些数据的格式都是差不多的，前期处理方法也是千篇一律，按道理来说是很简单的任务，但是量实在是太大了，往往一天的数据足够一个人处理两三天，而且是重复着的机械般的动作。这个时候我就想能不能把这些固定步骤的计算交给计算机做呢，于是">
+  <meta name="description" content="多线程设计模式类别概括 不可变对象模式（Immutable Object）  线程安全性指的是多个线程对共享资源同时进行访问时，防止数据发生未定义的变化。 所谓的不可变对象就是没有机会去修改它，每一次修改都会产生一个新的对象。  保护性暂挂模式（Guarded Suspension）  核心思想是仅当服务进程准备好时，才提供服务。 该模式主要成员有：Request、RequestQueue、Cli">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编程学习浅谈">
-<meta property="og:url" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/index.html">
+<meta property="og:title" content="多线程设计模式概述">
+<meta property="og:url" content="http://example.com/2021/10/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="未闻">
-<meta property="og:description" content="我与编程-Matlab篇编程是一件让人可以偷懒的能力，这是我最开始学习编程的原因。大概是2018年，我进入现在的课题组开始研究生的生活。什么让我最困扰呢？大量等待着处理的数据，这些数据的格式都是差不多的，前期处理方法也是千篇一律，按道理来说是很简单的任务，但是量实在是太大了，往往一天的数据足够一个人处理两三天，而且是重复着的机械般的动作。这个时候我就想能不能把这些固定步骤的计算交给计算机做呢，于是">
+<meta property="og:description" content="多线程设计模式类别概括 不可变对象模式（Immutable Object）  线程安全性指的是多个线程对共享资源同时进行访问时，防止数据发生未定义的变化。 所谓的不可变对象就是没有机会去修改它，每一次修改都会产生一个新的对象。  保护性暂挂模式（Guarded Suspension）  核心思想是仅当服务进程准备好时，才提供服务。 该模式主要成员有：Request、RequestQueue、Cli">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/1.png">
-<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/2.png">
-<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/3.png">
-<meta property="og:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/4.png">
-<meta property="article:published_time" content="2021-09-27T14:04:54.000Z">
-<meta property="article:modified_time" content="2021-09-27T14:56:27.812Z">
+<meta property="article:published_time" content="2021-10-11T06:29:06.000Z">
+<meta property="article:modified_time" content="2021-10-11T07:07:27.182Z">
 <meta property="article:author" content="Allen">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/1.png">
 
-<link rel="canonical" href="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/">
+<link rel="canonical" href="http://example.com/2021/10/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%BF%B0/">
 
 
 <script id="page-configurations">
@@ -51,7 +46,7 @@
   };
 </script>
 
-  <title>编程学习浅谈 | 未闻</title>
+  <title>多线程设计模式概述 | 未闻</title>
   
 
 
@@ -161,7 +156,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/%E4%B9%A6%E9%A1%B5.gif">
@@ -174,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          编程学习浅谈
+          多线程设计模式概述
         </h1>
 
         <div class="post-meta">
@@ -185,7 +180,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2021-09-27 22:04:54 / Modified: 22:56:27" itemprop="dateCreated datePublished" datetime="2021-09-27T22:04:54+08:00">2021-09-27</time>
+              <time title="Created: 2021-10-11 14:29:06 / Modified: 15:07:27" itemprop="dateCreated datePublished" datetime="2021-10-11T14:29:06+08:00">2021-10-11</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -193,7 +188,15 @@
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%9D%E8%8A%B1%E5%A4%95%E6%8B%BE/" itemprop="url" rel="index"><span itemprop="name">朝花夕拾</span></a>
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">C++面向对象编程</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">设计模式</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">多线程设计模式</span></a>
                 </span>
             </span>
 
@@ -208,18 +211,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="我与编程-Matlab篇"><a href="#我与编程-Matlab篇" class="headerlink" title="我与编程-Matlab篇"></a>我与编程-<code>Matlab</code>篇</h2><p>编程是一件让人可以偷懒的能力，这是我最开始学习编程的原因。大概是2018年，我进入现在的课题组开始研究生的生活。什么让我最困扰呢？大量等待着处理的数据，这些数据的格式都是差不多的，前期处理方法也是千篇一律，按道理来说是很简单的任务，但是量实在是太大了，往往一天的数据足够一个人处理两三天，而且是重复着的机械般的动作。这个时候我就想能不能把这些固定步骤的计算交给计算机做呢，于是开始了我的编程之路。</p>
-<p>首先进入我眼中的是<code>Matlab</code>，因为大学的时候简单的学习过它，对它有一定了解，所以首先从<code>Matlab</code>入手了。我记得当时遇到的第一个困难是如何将大量的<code>txt</code> 文本数据读进<code>Matlab</code>的工作空间(当时实在是太菜了)。</p>
-<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/1.png" alt="示意图"></p>
-<p>然后按照一定的顺序将每个文本的数据内容做一些加减乘除运算，然后对目标数据进行一个单指数拟合，最终得到系数。就是这样的一个功能，我写了大约3天。</p>
-<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/2.png" alt="示意图"></p>
-<p>不过当时我可自豪了，产生了想将课题组的数据处理方法整合起来的想法，也就是构建一个的数据处理软件。为了让大家更好的使用，我必须要考虑图形界面，于是我开始了<code>Matlab GUI</code>的学习(花费了2个星期左右)。从啥也不明白到了解了每一个控件就是调用一个函数，要想设置控件就必须要得到控件的句柄，得到句柄后查看帮助文档了解如何对控件进行操作，即属性和回调函数的设置。到这里我写了一个简单的计算器，一个处理气溶胶数据的简单运算的图形界面(从没见人用过)。</p>
-<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/3.png" alt="示意图"></p>
-<p>后面因为我自己的实验就中断了编程的学习，直到光学部分已经看到部分成果后，我决定开始二维光谱图像的处理，也就是编写一个光谱仪信息采集处理软件，首选平台<code>Matlab</code>(因为我就会这个)。于是找了相机的教程，把教程的代码段抄下来，勉勉强强完成了设置相机参数、打开光谱仪、采集数据、显示数据等。但不是程序一会死机了(现在明白了是内存溢出了),就是运行着程序越来越慢。于是我开始网上搜怎样才能同时做到这几件事呢？我认为的答案是多线程技术，可是<code>Matlab</code>只支持并行计算，并不支持多线程编程，没办法我只能另求出路，<code>java、python、C++</code>，我选择了<code>C++</code>，因为它是最难的。</p>
-<h2 id="我与编程-C-篇"><a href="#我与编程-C-篇" class="headerlink" title="我与编程-C++篇"></a>我与编程-<code>C++</code>篇</h2><p>开始的我不知天高地厚，天真的以为自学了<code>Matlab</code>，那么<code>C++</code>也同样不在话下！真的好傻啊。最开始我买了本<code>c++ primer</code>直接开啃，慢慢的我学习语法两个多月后，看了忘，忘了看，连网上随随便便一道算法题都完不成后，我开始思考我是不是学错了，到底怎么学习？当时恰逢春节，我回家之后和我表弟打赌，比的是谁能完成一个<code>c++</code>课程设计，是一个公司管理系统，一个总公司管理着下属的20个子公司。我先完成了，用的手法就很low啦，这是我第一次在<code>c++</code>平台上完成一件事，对我的激励还挺强的。</p>
-<p><img src="/2021/09/27/%E7%BC%96%E7%A8%8B%E5%AD%A6%E4%B9%A0%E6%B5%85%E8%B0%88/4.png" alt="示意图"></p>
-<p>不过现在看来还是写的很差的，不过好歹实现了不是。</p>
-<p>对学习编程来说，真正第一次有所感悟是学习Stanford CS106B，因为这门课是将算法、数据结构和语法放在一起讲的，循序渐进，从一个一个问题中，我慢慢理解到了数据结构的美，算法的精妙之处，如何实现模版类之类的知识让我对STL之类的类库再也没有那么害怕。</p>
+        <h1 id="多线程设计模式类别概括"><a href="#多线程设计模式类别概括" class="headerlink" title="多线程设计模式类别概括"></a>多线程设计模式类别概括</h1><ul>
+<li>不可变对象模式（Immutable Object）</li>
+</ul>
+<p><em>线程安全性</em>指的是多个线程对共享资源同时进行访问时，防止数据发生未定义的变化。</p>
+<p>所谓的不可变对象就是没有机会去修改它，每一次修改都会产生一个新的对象。</p>
+<ul>
+<li>保护性暂挂模式（Guarded Suspension）</li>
+</ul>
+<p>核心思想是仅当服务进程准备好时，才提供服务。</p>
+<p>该模式主要成员有：Request、RequestQueue、ClientThread、ServerThread。</p>
+<ol>
+<li>Request：表示客户端请求</li>
+<li>RequestQueue：用于保存客户端请求队列</li>
+<li>ClientThread：客户端进程</li>
+<li>ServerThread：服务器进程</li>
+</ol>
+<p>适用场景：一项任务被分解为多个不同的部分，每个线程完成不同的部分，这些线程相互协作时，会出现一个线程等待另一个线程一定操作后才能进行的场景。</p>
+<ul>
+<li>两阶段终止模式（Two-phase Termination）</li>
+</ul>
+<ul>
+<li>承诺模式（Promise）</li>
+</ul>
+<ul>
+<li>生产者-消费者模式（Producer-Consumer）</li>
+</ul>
+<ul>
+<li>主动对象模式（Active Object）</li>
+<li>线程池模式（Thread Poll）</li>
+</ul>
+<ul>
+<li>线程特有存储（Thread Specific Storage）</li>
+<li>串行线程封闭模式（Serial Thread Confinement）</li>
+<li>主仆模式（Master-Slave）</li>
+<li>流水线模式（Pipeline）</li>
+<li>半同步/半异步模式（Half-sync/Half-async）</li>
+</ul>
 
     </div>
 
@@ -235,13 +263,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/09/27/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" rel="prev" title="中介者模式">
-      <i class="fa fa-chevron-left"></i> 中介者模式
+    <a href="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/" rel="prev" title="1.Use Case教程">
+      <i class="fa fa-chevron-left"></i> 1.Use Case教程
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/09/29/1-Use-Case%E6%95%99%E7%A8%8B/" rel="next" title="1.Use Case教程">
-      1.Use Case教程 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -300,7 +325,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%8E%E7%BC%96%E7%A8%8B-Matlab%E7%AF%87"><span class="nav-number">1.</span> <span class="nav-text">我与编程-Matlab篇</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E4%B8%8E%E7%BC%96%E7%A8%8B-C-%E7%AF%87"><span class="nav-number">2.</span> <span class="nav-text">我与编程-C++篇</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%B1%BB%E5%88%AB%E6%A6%82%E6%8B%AC"><span class="nav-number">1.</span> <span class="nav-text">多线程设计模式类别概括</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
