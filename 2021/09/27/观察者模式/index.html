@@ -28,10 +28,13 @@
 <meta property="og:site_name" content="未闻">
 <meta property="og:description" content="Observer模式本文参考现代C++设计模式-观察者模式章节 观察者模式是一种非常流行的、实用的设计模式。它定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个对象，当这个对象的状态发生变化时，会通知所有观察者，使它们能够自动更新自己。   尽管观察者模式极为重要，但C++和标准库中都没有现成的实现。 下面将就一个安全的、正确实现的观察者模式的结构进行深入阐述。 以生日为例，当某人长大一岁">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/09/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/1.png">
+<meta property="og:image" content="http://example.com/2021/09/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/2.png">
 <meta property="article:published_time" content="2021-09-27T06:24:16.000Z">
-<meta property="article:modified_time" content="2021-09-29T01:40:10.965Z">
+<meta property="article:modified_time" content="2021-10-13T02:41:37.099Z">
 <meta property="article:author" content="Allen">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/09/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/1.png">
 
 <link rel="canonical" href="http://example.com/2021/09/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
 
@@ -186,7 +189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2021-09-29 09:40:10" itemprop="dateModified" datetime="2021-09-29T09:40:10+08:00">2021-09-29</time>
+                <time title="Modified: 2021-10-13 10:41:37" itemprop="dateModified" datetime="2021-10-13T10:41:37+08:00">2021-10-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -263,6 +266,34 @@
 <p>第二种：</p>
 <p>实用TPL/PPL中<code>concurrent_vector</code>之类的东西，当然，这个时候你添加对象的顺序不是他们得到通知的顺序，好处是不用再管理锁了。</p>
 <p><font color="red" size="5">值得一提的是：如果需要被订阅的对象和订阅对象的关系是一个不变量的话，线程安全问题就不需要考虑了。</font></p>
+<h3 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h3><p>上述源代码毫无疑问是实现了观察者模式、而且是使用类模版这种十分轻松的方式，但是我在实际问题的使用中遇到了一些困难。比如：</p>
+<p>老师在考场监督学生这一情景。我的思路是构建老师类和学生类，分别继承观察者类模版和被观察者类模版。</p>
+<p>然后在notify函数的具体使用时发现了问题，观察者和被观察者都是Person类型的。所以在notify的模版类定义中不需要考虑notify第一项的指针类型，因为观察者和被观察者都是同一类型的。但是学生与老师这个问题中，被观察者模版中使用的应该是学生类（可被学生类观察），而且notify的自我指针引用时应该是老师类，但在类模版声明是是学生类，所以编译器无法通过。</p>
+<p>我想的办法是将被观察者模版类的类型参数变为两个，一个是被观察者自身，一个是观察者，这样就可以将两者分开。我添加之后是这样的情况：</p>
+<p><img src="/2021/09/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/1.png" alt="avatar"></p>
+<p><img src="/2021/09/27/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/2.png" alt="avatar"></p>
+<p>这里我其实有点不理解，this指针是Teacher类之中的，为什么是Student类型的指针？？</p>
+<p>我对模版类的理解还是太浅了，所以想用模版类实现不同类型的观察者对同一类型的被观察者暂时放置一边，而采用抽象类接口的方式实现观察者模式。</p>
+<h3 id="抽象类继承实现"><a href="#抽象类继承实现" class="headerlink" title="抽象类继承实现"></a>抽象类继承实现</h3><p>思路：</p>
+<ul>
+<li>将需要被观察的量抽象为被观察者抽象类，包含添加观察者、删除观察者、通知观察者和内部的观察者信息</li>
+<li>将观察者抽象为观察者类，具体为根据不同的对象，重载不同的方法</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//观察者抽象类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observer</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">updata</span><span class="params">(<span class="keyword">const</span> std::string)</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//被观察者抽象类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Observable</span>&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">notify</span><span class="params">(std::string name)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">auto</span> obs:observers)&#123;</span><br><span class="line">            obs-&gt;<span class="built_in">updata</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">addObserver</span><span class="params">(Observer* ob)</span></span>&#123;</span><br><span class="line">        observers.<span class="built_in">push_back</span>(ob);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    std::vector&lt;Observer*&gt; observers;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样就构建了两个抽象类，分别是观察者和被观察者，它们的职责是很好理解的，那么下面我将实现不同类型的观察者对同一被观察者的同一个动作做出不同的回应。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Teacher</span>:</span><span class="keyword">public</span> Observable&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">exam_start</span><span class="params">()</span></span>&#123;</span><br><span class="line">        std::cout&lt;&lt;<span class="string">&quot;exam start&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">        <span class="built_in">notify</span>(<span class="string">&quot;exam_start&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:</span><span class="keyword">public</span> Observer&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updata</span><span class="params">(std::string str)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(str ==<span class="string">&quot;exam_start&quot;</span>)&#123;</span><br><span class="line">            std::cout&lt;&lt;name&lt;&lt;<span class="string">&quot; start_write&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    std::string name;</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Student</span><span class="params">(std::string name)</span>:name(name)&#123;</span>&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">bigTeacher</span>:</span><span class="keyword">public</span> Observer&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">updata</span><span class="params">(std::string str)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(str ==<span class="string">&quot;exam_start&quot;</span>)&#123;</span><br><span class="line">            std::cout&lt;&lt;name&lt;&lt;<span class="string">&quot; I know&quot;</span>&lt;&lt;std::endl;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    std::string name;</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">bigTeacher</span><span class="params">(std::string name)</span>:name(name)&#123;</span>&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Teacher a;</span><br><span class="line">    Student b = <span class="built_in">Student</span>(<span class="string">&quot;zhang&quot;</span>);</span><br><span class="line">    Student c = <span class="built_in">Student</span>(<span class="string">&quot;Li&quot;</span>);</span><br><span class="line">    bigTeacher d = <span class="built_in">bigTeacher</span>(<span class="string">&quot;hah&quot;</span>);</span><br><span class="line">    a.<span class="built_in">addObserver</span>(&amp;b);</span><br><span class="line">    a.<span class="built_in">addObserver</span>(&amp;c);</span><br><span class="line">    a.<span class="built_in">addObserver</span>(&amp;d);</span><br><span class="line">    a.<span class="built_in">exam_start</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面我实现了两个不同的观察者，学生和巡考老师，他们监听考试开始的信号，并作出回应。</p>
+<p>以上的这种方式可以看成某个对象的自身状态的改变而引起其他对象做出相应的回应这样一种写法。这个被观察者可以是某个实体对象的某个属性，也可以是某个动作，某个事件。</p>
+<h3 id="观察者模式应用场景"><a href="#观察者模式应用场景" class="headerlink" title="观察者模式应用场景"></a>观察者模式应用场景</h3><p>当某一方的行为依赖另一方的行为或者状态时，可以使用观察者模式松耦合联动双方，使得一方的变动可以通知到感兴趣的另一方对象，从而让另一方对象做出回应。</p>
+<p>适用情形：</p>
+<ol>
+<li>对象间存在一对多关系，一个对象的状态发生改变会影响其他对象。</li>
+<li>当一个模型有两个方面，其中一个依赖另一个时，可将两者封装在独立的对象中使它们可以各自独立的改变和复用。</li>
+<li>实现类似广播机制的功能，不需要知道具体收听者，只需要发广播</li>
+<li>多层级嵌套使用，形成一种链式触发机制，使得事件具备跨域通知（超过两种观察者）</li>
+</ol>
 
     </div>
 
@@ -340,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Observer%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">Observer模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85"><span class="nav-number">1.1.</span> <span class="nav-text">观察者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E8%A7%82%E5%AF%9F%E8%80%85"><span class="nav-number">1.2.</span> <span class="nav-text">被观察者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">源代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.</span> <span class="nav-text">线程安全问题</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Observer%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.</span> <span class="nav-text">Observer模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85"><span class="nav-number">1.1.</span> <span class="nav-text">观察者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A2%AB%E8%A7%82%E5%AF%9F%E8%80%85"><span class="nav-number">1.2.</span> <span class="nav-text">被观察者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%90%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">源代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.</span> <span class="nav-text">线程安全问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98"><span class="nav-number">1.5.</span> <span class="nav-text">一些问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%BB%A7%E6%89%BF%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.6.</span> <span class="nav-text">抽象类继承实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.7.</span> <span class="nav-text">观察者模式应用场景</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -356,7 +387,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
